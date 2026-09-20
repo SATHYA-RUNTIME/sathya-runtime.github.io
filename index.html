@@ -1,3 +1,522 @@
+<!doctype html>
+<html lang="en">
 <head>
-    <title>My Website</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sathya Aruchsamy | Backend Engineer, Java, Spring Boot, AWS</title>
+<meta name="description" content="Sathya Aruchsamy is a backend engineer with four years of experience building insurance software in Java, Spring Boot and AWS.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400..700&display=swap">
+<style>
+:root {
+  --paper: #F4F7FA;
+  --surface: #FFFFFF;
+  --ink: #10243A;
+  --on-ink: #F4F7FA;
+  --muted: #4A5B6D;
+  --line: #D3DCE5;
+  --teal: #0B7A75;
+  --amber: #F0B429;
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0C1622;
+    --surface: #132233;
+    --ink: #E7EEF5;
+    --on-ink: #0C1622;
+    --muted: #9FB1C3;
+    --line: #26384B;
+    --teal: #4FD1C5;
+    --amber: #F5C451;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0C1622;
+  --surface: #132233;
+  --ink: #E7EEF5;
+  --on-ink: #0C1622;
+  --muted: #9FB1C3;
+  --line: #26384B;
+  --teal: #4FD1C5;
+  --amber: #F5C451;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px);
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 {
+  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+p { margin: 0; }
+a { color: var(--teal); text-underline-offset: 0.2em; }
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.wrap { width: min(1080px, 100% - 2.5rem); margin-inline: auto; }
+
+/* ---------- Top bar ---------- */
+.top {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; }
+.mark {
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.bar nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: 0.95rem; }
+.bar nav a { color: var(--muted); text-decoration: none; padding: 0.35rem 0; }
+.bar nav a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 0.3em; }
+
+/* ---------- Hero ---------- */
+.hero { padding: 4.5rem 0 4.5rem; }
+.name {
+  font-weight: 800;
+  font-size: clamp(3rem, 11.5vw, 8rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  font-variation-settings: "opsz" 96;
+}
+.name .line { display: block; overflow: hidden; padding-bottom: 0.08em; }
+.name .line > span { display: block; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.name .line:nth-child(2) > span { animation-delay: 0.12s; }
+@keyframes rise { from { transform: translateY(105%); } to { transform: none; } }
+
+.role {
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  max-width: 26ch;
+  margin-top: 2rem;
+}
+.lede { color: var(--muted); max-width: 62ch; margin-top: 1.25rem; font-size: 1.125rem; }
+.lede strong { color: var(--ink); font-weight: 600; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; margin-top: 2rem; }
+.btn {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--on-ink);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.8rem 1.4rem;
+  border-radius: 999px;
+}
+.btn:hover { background: var(--teal); color: #fff; }
+.actions a:not(.btn) { font-weight: 600; }
+
+/* ---------- Sections ---------- */
+.section { padding: 4.5rem 0; border-top: 1px solid var(--line); }
+.section h2 { font-size: clamp(1.9rem, 4.5vw, 2.75rem); margin-bottom: 2.25rem; }
+
+.rows > .row { display: grid; grid-template-columns: 210px 1fr; gap: 0.5rem 3rem; padding: 1.75rem 0; }
+.rows > .row + .row { border-top: 1px solid var(--line); }
+.rows > .row:first-child { padding-top: 0; }
+.rows > .row:last-child { padding-bottom: 0; }
+.meta { color: var(--muted); font-size: 0.98rem; }
+.meta strong { display: block; color: var(--ink); font-weight: 600; }
+.row h3 { font-size: 1.5rem; }
+.org { color: var(--muted); margin-top: 0.25rem; }
+.row .copy { max-width: 66ch; margin-top: 1rem; }
+.points { margin: 1rem 0 0; padding-left: 1.2rem; max-width: 66ch; }
+.points li { margin-bottom: 0.6rem; padding-left: 0.2rem; }
+.points li::marker { color: var(--teal); }
+.points strong { font-weight: 600; }
+
+dl.skills { margin: 0; }
+dl.skills > .row { padding: 1.1rem 0; }
+dl.skills dt { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 700; font-size: 1.15rem; }
+dl.skills dd { margin: 0; max-width: 66ch; }
+
+/* ---------- Project explorer ---------- */
+.project-intro { max-width: 66ch; }
+.project-intro p + p { margin-top: 0.9rem; }
+.hint { color: var(--muted); margin: 2.5rem 0 1.25rem; font-size: 0.98rem; }
+
+.flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "react react"
+    "l1 l1"
+    "api api"
+    "l2 l3"
+    "db s3";
+  grid-template-rows: auto 40px auto 40px auto;
+  column-gap: 14px;
+  max-width: 920px;
+  padding: 0 8px 8px 0;
+}
+.node {
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  min-height: 88px;
+}
+.node .t { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 700; font-size: 1.2rem; line-height: 1.2; }
+.node .s { font-size: 0.92rem; color: var(--muted); }
+.node:hover { border-color: var(--teal); }
+.node[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--on-ink);
+  border-color: var(--ink);
+  box-shadow: 6px 6px 0 var(--amber);
+}
+.node[aria-pressed="true"] .s { color: var(--on-ink); opacity: 0.8; }
+.node[data-key="react"] { grid-area: react; }
+.node[data-key="api"]   { grid-area: api; }
+.node[data-key="db"]    { grid-area: db; }
+.node[data-key="s3"]    { grid-area: s3; }
+
+.link { position: relative; }
+.l1 { grid-area: l1; }
+.l2 { grid-area: l2; }
+.l3 { grid-area: l3; }
+/* mobile default: vertical connectors pointing down */
+.link::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: 0; bottom: 8px;
+  width: 2px;
+  background: var(--ink);
+  transform: translateX(-1px);
+}
+.link::after {
+  content: "";
+  position: absolute;
+  left: 50%; bottom: 0;
+  transform: translateX(-50%);
+  border-style: solid;
+  border-width: 9px 6px 0 6px;
+  border-color: var(--ink) transparent transparent transparent;
+}
+
+.detail {
+  margin-top: 2.75rem;
+  padding-left: 1.5rem;
+  border-left: 4px solid var(--amber);
+  max-width: 68ch;
+}
+.detail h3 { font-size: 1.6rem; margin-bottom: 0.6rem; }
+.detail ul { margin: 0.9rem 0 0; padding-left: 1.2rem; }
+.detail li { margin-bottom: 0.4rem; }
+.detail li::marker { color: var(--teal); }
+.visit { display: inline-block; margin-top: 1.5rem; font-weight: 600; }
+
+@media (min-width: 640px) {
+  .flow {
+    grid-template-columns: 1fr 64px 1fr 64px 1fr;
+    grid-template-areas:
+      "react l1 api l2 db"
+      ".     .  l3  .  ."
+      ".     .  s3  .  .";
+    grid-template-rows: auto 44px auto;
+    column-gap: 0;
+  }
+  .l1::before, .l2::before {
+    left: 0; right: 8px; top: 50%; bottom: auto;
+    width: auto; height: 2px;
+    transform: translateY(-1px);
+  }
+  .l1::after, .l2::after {
+    left: auto; right: 0; top: 50%; bottom: auto;
+    transform: translateY(-50%);
+    border-width: 6px 0 6px 9px;
+    border-color: transparent transparent transparent var(--ink);
+  }
+}
+@media (max-width: 720px) {
+  .bar nav { gap: 0.25rem 0.95rem; font-size: 0.9rem; }
+  .rows > .row { grid-template-columns: 1fr; }
+  .hero { padding: 3rem 0; }
+  .section { padding: 3.25rem 0; }
+}
+
+/* ---------- Contact ---------- */
+.contact-lede { max-width: 56ch; color: var(--muted); font-size: 1.125rem; }
+.email {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 4.8vw, 2.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.elsewhere { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin-top: 1.5rem; font-weight: 600; }
+.foot { padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.92rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .name .line > span { animation: none; }
+}
+</style>
 </head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="mark" href="#top" aria-label="Sathya Aruchsamy, back to top">SA</a>
+    <nav aria-label="Sections">
+      <a href="#experience">Experience</a>
+      <a href="#project">Project</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <h1 class="name"><span class="line"><span>Sathya</span></span> <span class="line"><span>Aruchsamy</span></span></h1>
+      <p class="role">Backend engineer building insurance software in Java, on AWS.</p>
+      <p class="lede">
+        I have spent four years building and supporting enterprise insurance applications.
+        My Spring Boot APIs handle <strong>1,000+ transactions a day</strong>, and the quarterly releases I have supported
+        have held <strong>99.9% application stability</strong>. On my own time I built and deployed
+        GwayInsure.in, a full-stack insurance platform.
+      </p>
+      <p class="actions">
+        <a class="btn" href="mailto:sathyajobconnect@gmail.com">Email me</a>
+        <a href="https://www.linkedin.com/in/sathya7" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/sathya-runtime" target="_blank" rel="noopener">GitHub</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="wrap">
+      <h2>Experience</h2>
+      <div class="rows">
+        <div class="row">
+          <p class="meta"><strong>Sep 2022 to present</strong>Coimbatore, India</p>
+          <div>
+            <h3>Software Engineer</h3>
+            <p class="org">KG Information Systems Private Limited (KGISL)</p>
+            <p class="copy">
+              I work on Alliance, a comprehensive insurance application for a Dubai-based insurance client.
+              I helped build the core application from the start, and I still support the client with
+              enhancements, maintenance and production releases.
+            </p>
+            <ul class="points">
+              <li>Built Spring Boot REST APIs that support <strong>1,000+ daily transactions</strong>, improving performance, reliability and backend throughput.</li>
+              <li>Worked with QA to resolve <strong>300+ high-priority defects</strong> over several years, contributing to <strong>99.9% application stability</strong> across quarterly production releases.</li>
+              <li>Use generative AI and Cursor for development, debugging, code optimization, refactoring and test-case generation, so features ship faster.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="project">
+    <div class="wrap">
+      <h2>GwayInsure.in</h2>
+      <div class="project-intro">
+        <p>
+          A full-stack insurance platform I built on my own with Spring Boot and React, covering end-to-end insurance workflows.
+          I used generative AI and Cursor throughout to move faster on code generation and problem-solving.
+        </p>
+      </div>
+
+      <p class="hint" id="hint">Select any part of the system to see how I built it.</p>
+
+      <div class="flow" role="group" aria-label="GwayInsure.in system diagram" aria-describedby="hint">
+        <button class="node" type="button" data-key="react" aria-pressed="false">
+          <span class="t">React app</span><span class="s">Front end</span>
+        </button>
+        <span class="link l1" aria-hidden="true"></span>
+        <button class="node" type="button" data-key="api" aria-pressed="true">
+          <span class="t">Spring Boot API</span><span class="s">Hosted on AWS EC2</span>
+        </button>
+        <span class="link l2" aria-hidden="true"></span>
+        <button class="node" type="button" data-key="db" aria-pressed="false">
+          <span class="t">MongoDB</span><span class="s">Database</span>
+        </button>
+        <span class="link l3" aria-hidden="true"></span>
+        <button class="node" type="button" data-key="s3" aria-pressed="false">
+          <span class="t">AWS S3</span><span class="s">Document storage</span>
+        </button>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <h3>Spring Boot API on AWS EC2</h3>
+        <p>The core of the platform. Every request is checked with JWT authentication, and role-based access control (RBAC) decides which roles can use which parts of the application.</p>
+        <ul>
+          <li>JWT authentication secures the APIs</li>
+          <li>RBAC enforces granular access across application modules</li>
+          <li>Deployed on AWS EC2</li>
+        </ul>
+      </div>
+
+      <a class="visit" href="https://gwayinsure.in" target="_blank" rel="noopener">Visit gwayinsure.in</a>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="wrap">
+      <h2>Skills</h2>
+      <dl class="skills rows">
+        <div class="row"><dt>Languages</dt><dd>Java (core and advanced), JavaScript, SQL</dd></div>
+        <div class="row"><dt>Backend</dt><dd>Spring Boot, Spring MVC, Spring Data JPA, Spring Security, RESTful APIs, JWT</dd></div>
+        <div class="row"><dt>Frontend</dt><dd>Angular (11 to 17), React.js, Material UI, HTML5, CSS3</dd></div>
+        <div class="row"><dt>Cloud and tools</dt><dd>AWS (EC2, S3, IAM, GuardDuty, CloudWatch), Git, Jenkins, JIRA, Cursor AI</dd></div>
+        <div class="row"><dt>Databases</dt><dd>MySQL, PostgreSQL, MongoDB</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" id="education">
+    <div class="wrap">
+      <h2>Education</h2>
+      <div class="rows">
+        <div class="row">
+          <p class="meta"><strong>2022</strong></p>
+          <div>
+            <h3>Master of Computer Applications (MCA)</h3>
+            <p class="org">Bharathiar University, 84%</p>
+          </div>
+        </div>
+        <div class="row">
+          <p class="meta"><strong>2020</strong></p>
+          <div>
+            <h3>Bachelor of Science in Computer Science</h3>
+            <p class="org">Gobi Arts and Science College, 72%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="wrap">
+      <h2>Let's talk</h2>
+      <p class="contact-lede">I am looking for backend and full-stack roles. Email is the fastest way to reach me.</p>
+      <a class="email" href="mailto:sathyajobconnect@gmail.com">sathyajobconnect@gmail.com</a>
+      <p class="elsewhere">
+        <a href="https://www.linkedin.com/in/sathya7" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/sathya-runtime" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://gwayinsure.in" target="_blank" rel="noopener">GwayInsure.in</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">Sathya Aruchsamy, Coimbatore, Tamil Nadu, India</div>
+</footer>
+
+<script>
+(function () {
+  var info = {
+    react: {
+      title: "React front end",
+      text: "The React interface for the platform's insurance workflows. It sends a JWT with each request to the API.",
+      points: [
+        "Talks only to the Spring Boot API",
+        "Access rules are enforced on the API, so the interface never has the final say"
+      ]
+    },
+    api: {
+      title: "Spring Boot API on AWS EC2",
+      text: "The core of the platform. Every request is checked with JWT authentication, and role-based access control (RBAC) decides which roles can use which parts of the application.",
+      points: [
+        "JWT authentication secures the APIs",
+        "RBAC enforces granular access across application modules",
+        "Deployed on AWS EC2"
+      ]
+    },
+    db: {
+      title: "MongoDB",
+      text: "Stores the platform's data. Its flexible schema lets product models change quickly without reworking the whole database each time.",
+      points: [
+        "Flexible schema for rapid product-model changes"
+      ]
+    },
+    s3: {
+      title: "AWS S3 document storage",
+      text: "More than 1,000 customer documents are stored in S3. The API issues dynamic pre-signed URLs, so files can be stored and retrieved securely without making the bucket public.",
+      points: [
+        "1,000+ customer documents",
+        "Dynamic pre-signed URLs for secure access"
+      ]
+    }
+  };
+
+  var nodes = document.querySelectorAll(".node");
+  var detail = document.getElementById("detail");
+
+  function show(key) {
+    var d = info[key];
+    if (!d) return;
+    nodes.forEach(function (n) {
+      n.setAttribute("aria-pressed", n.getAttribute("data-key") === key ? "true" : "false");
+    });
+    detail.textContent = "";
+    var h = document.createElement("h3");
+    h.textContent = d.title;
+    var p = document.createElement("p");
+    p.textContent = d.text;
+    var ul = document.createElement("ul");
+    d.points.forEach(function (t) {
+      var li = document.createElement("li");
+      li.textContent = t;
+      ul.appendChild(li);
+    });
+    detail.appendChild(h);
+    detail.appendChild(p);
+    detail.appendChild(ul);
+  }
+
+  nodes.forEach(function (n) {
+    n.addEventListener("click", function () { show(n.getAttribute("data-key")); });
+  });
+})();
+</script>
+</body>
+</html>
